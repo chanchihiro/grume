@@ -1,10 +1,14 @@
 
+//ヨーダレイOPのアニメーション
+
 @import "settings";
 @import "functions";
 
 
+.first{
+	animation:horizontal 0.5s ease-in-out infinite alternate;
+}
 
-#animation{
-	transition:2s;
-	background-color: #fff;
+.fimg{
+	animation: vertical 0.5s ease-in-out infinite alternate;
 }

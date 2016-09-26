@@ -1,7 +1,7 @@
 {
 "version": 3,
-"mappings": "AAMA,UAAU;EACT,UAAU,EAAC,EAAE;EACb,gBAAgB,EAAE,IAAI",
-"sources": ["scss/main.scss"],
+"mappings": "AAEA,qBAGC;EAFG,EAAG;IAAE,SAAS,EAAC,iBAAkB;;EACnC,IAAK;IAAE,SAAS,EAAC,eAAiB;;;AAGpC,mBAGC;EAFG,EAAG;IAAE,SAAS,EAAC,iBAAiB;;EAClC,IAAK;IAAE,SAAS,EAAC,eAAiB;;;ACFpC,qBAGC;EAFG,EAAG;IAAE,SAAS,EAAC,iBAAkB;;EACnC,IAAK;IAAE,SAAS,EAAC,eAAiB;;;AAGpC,mBAGC;EAFG,EAAG;IAAE,SAAS,EAAC,iBAAiB;;EAClC,IAAK;IAAE,SAAS,EAAC,eAAiB;;;AAEpC,MAAM;EACL,SAAS,EAAC,8CAA8C;;;AAGzD,KAAK;EACJ,SAAS,EAAE,4CAA4C",
+"sources": ["scss/_settings.scss","scss/main.scss"],
 "names": [],
 "file": "css:animation.css"
 }

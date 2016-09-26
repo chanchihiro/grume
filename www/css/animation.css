@@ -14,22 +14,6 @@
     transform: translateY(0px);
   }
 }
-@keyframes horizontal {
-  0% {
-    transform: translateX(-10px);
-  }
-  100% {
-    transform: translateX(0px);
-  }
-}
-@keyframes vertical {
-  0% {
-    transform: translateY(-30px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
-}
 .first {
   animation: horizontal 0.5s ease-in-out infinite alternate;
 }
@@ -38,4 +22,4 @@
   animation: vertical 0.5s ease-in-out infinite alternate;
 }
 
-/*# sourceMappingURL=css:animation.css.map */
+/*# sourceMappingURL=animation.css.map */
