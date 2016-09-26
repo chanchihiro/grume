@@ -6,9 +6,25 @@
 
 
 .first{
-	animation:horizontal 0.5s ease-in-out infinite alternate;
+	animation:horizontal 1s ease-in-out infinite alternate;
 }
 
 .fimg{
-	animation: vertical 0.5s ease-in-out infinite alternate;
+	animation: vertical 0.7s ease-in-out infinite alternate;
+}
+
+.second{
+	@extend .first;
+}
+
+.simg{
+	@extend .fimg;
+}
+
+.third{
+	@extend .first;
+}
+
+.aimg{
+	@extend .fimg;
 }

@@ -1,6 +1,6 @@
 @keyframes horizontal {
   0% {
-    transform: translateX(-10px);
+    transform: translateX(-5px);
   }
   100% {
     transform: translateX(0px);
@@ -8,18 +8,18 @@
 }
 @keyframes vertical {
   0% {
-    transform: translateY(-30px);
+    transform: translateY(-10px);
   }
   100% {
     transform: translateY(0px);
   }
 }
-.first {
-  animation: horizontal 0.5s ease-in-out infinite alternate;
+.first, .second, .third {
+  animation: horizontal 1s ease-in-out infinite alternate;
 }
 
-.fimg {
-  animation: vertical 0.5s ease-in-out infinite alternate;
+.fimg, .simg, .aimg {
+  animation: vertical 0.7s ease-in-out infinite alternate;
 }
 
 /*# sourceMappingURL=animation.css.map */
