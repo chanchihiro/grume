@@ -101,7 +101,7 @@ jQuery(function(){
 		format:"json",
 		latitude:lat,
 		longitude:lng,
-		range:5,    
+		range:2,    
 		freeword: "",
 	};
 
@@ -321,7 +321,7 @@ jQuery(function(){
         			        $("#left").css({
         			           transform : "rotate(" + dirN0 + "deg)" 
         			        });
-                            alert(dirN0);
+                            // alert(dirN0);
                    
                         
     		        });
