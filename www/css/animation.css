@@ -14,12 +14,20 @@
     transform: translateY(0px);
   }
 }
+
+@keyframes kaiten {
+  0% { transform:rotate(10deg);
+  }
+  100% { transform:rotate(-10deg);
+  }
+}
+
 .first, .second, .third {
-  animation: horizontal 1s ease-in-out infinite alternate;
+  /*animation: horizontal 1s ease-in-out infinite alternate;*/
 }
 
 .fimg, .simg, .aimg {
-  animation: vertical 0.7s ease-in-out infinite alternate;
+  animation: kaiten 2s ease-in-out infinite alternate;
 }
 
 /*# sourceMappingURL=animation.css.map */
