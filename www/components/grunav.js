@@ -129,19 +129,19 @@ jQuery(function(){
 		if(result.total_hit_count > 0){
 			alert("運命の出会い！？");
 			$.each(result.rest,function(i,item){
-				$(".result").append("<div class='" + "food" + "'>" +
+				// $(".result").append("<div class='" + "food" + "'>" +
 					// "<img src='" + item.image_url.shop_image1 + "'>" +  
-					"<h1>" + item.name + "</h1>"+
+					// "<h1>" + item.name + "</h1>"+
 					// "<p>" + item.latitude + " " + item.longitude + "</p>" +
-					"<p>" + item.access.walk + "分" + "</p>" +
-					"<div id='" + "popo" + "'></div>" +
-					"<div id='" + "pipi" + "'></div>" +
-					"<div id='" + "map-canvas" + "'></div>" +
-					"<div id='" + "comment" + "'></div>" +
-					"<div id='" + "hougaku" + "'></div>" +
-                    "<div id='" + "toutyaku" + "'>" + "到着したよ" + "</div>" +
-					"</div>"
-				);
+				// 	"<p>" + item.access.walk + "分" + "</p>" +
+				// 	"<div id='" + "popo" + "'></div>" +
+				// 	"<div id='" + "pipi" + "'></div>" +
+				// 	"<div id='" + "map-canvas" + "'></div>" +
+				// 	"<div id='" + "comment" + "'></div>" +
+				// 	"<div id='" + "hougaku" + "'></div>" +
+    //                 "<div id='" + "toutyaku" + "'>" + "到着したよ" + "</div>" +
+				// 	"</div>"
+				// );
 				
 
 				var rendererOptions = {
@@ -308,24 +308,22 @@ jQuery(function(){
     				  if (dirE0 < 0) {
     				    dirE0 = dirE0 + 360; //0～360 にする。
     				  }
-    				  var dirN0 = (dirE0 + 90) % 360; //(dirE0+90)÷360の余りを出力 北向きが０度の方向
-                      
-                      
+    				  var dirN0 = (dirE0 + 90) % 360; //(dirE0+90)÷360の余りを出力 北向きが０度の方向                      
                       
                       
                           
-                          //店のある方を向く
+                          // 店のある方を向く
             		        $("#right").css({
         			           transform : "rotate(" + dirN0 + "deg)" 
         			        });
         			        $("#left").css({
         			           transform : "rotate(" + dirN0 + "deg)" 
         			        });
-                            // alert(dirN0);
+                            alert(dirN0);
                    
                         
     		        });
-                 }
+                }
                  
                  
 
@@ -334,9 +332,8 @@ jQuery(function(){
 
 				//全体の実装
 				setInterval(calcRoute,2000);
-                geoDirection();
+				geoDirection();
                 initialize();
-
 
 
 
