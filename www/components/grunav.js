@@ -129,19 +129,19 @@ jQuery(function(){
 		if(result.total_hit_count > 0){
 			alert("運命の出会い！？");
 			$.each(result.rest,function(i,item){
-				// $(".result").append("<div class='" + "food" + "'>" +
-					// "<img src='" + item.image_url.shop_image1 + "'>" +  
-					// "<h1>" + item.name + "</h1>"+
-					// "<p>" + item.latitude + " " + item.longitude + "</p>" +
-				// 	"<p>" + item.access.walk + "分" + "</p>" +
-				// 	"<div id='" + "popo" + "'></div>" +
-				// 	"<div id='" + "pipi" + "'></div>" +
-				// 	"<div id='" + "map-canvas" + "'></div>" +
-				// 	"<div id='" + "comment" + "'></div>" +
-				// 	"<div id='" + "hougaku" + "'></div>" +
-    //                 "<div id='" + "toutyaku" + "'>" + "到着したよ" + "</div>" +
-				// 	"</div>"
-				// );
+				$(".result").append("<div class='" + "food" + "'>" +
+					"<img src='" + item.image_url.shop_image1 + "'>" +  
+					"<h1>" + item.name + "</h1>"+
+					"<p>" + item.latitude + " " + item.longitude + "</p>" +
+					"<p>" + item.access.walk + "分" + "</p>" +
+					"<div id='" + "popo" + "'></div>" +
+					"<div id='" + "pipi" + "'></div>" +
+					"<div id='" + "map-canvas" + "'></div>" +
+					"<div id='" + "comment" + "'></div>" +
+					"<div id='" + "hougaku" + "'></div>" +
+                    "<div id='" + "toutyaku" + "'>" + "到着したよ" + "</div>" +
+					"</div>"
+				);
 				
 
 				var rendererOptions = {
@@ -271,7 +271,7 @@ jQuery(function(){
                             
                             //50メートル以内に入るとボタン出現
                             if(50 > response.routes[0].legs[0].distance.value){
-        						$("#bye").append("<div id='" + "last" + "'>" + "到着！" + "</div>");
+        						$("")
                             }
     
     					});
