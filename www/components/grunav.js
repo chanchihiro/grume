@@ -8,7 +8,6 @@ jQuery(function(){
 	var data = position.coords;
 	var lat = data.latitude;
 	var lng = data.longitude;
-    var watchID = null; //方向
     
     
     
@@ -38,39 +37,43 @@ jQuery(function(){
 
 
     $(".wa").on("click",function(){
-		params.freeword = "和食";
+		params.freeword = "和";
 		$.getJSON(url_rest,params,function(result){
 			showResult(result);
 		});
 		$(".one").hide();
 		$(".image,.word,.distance").show();
+        startWatch();
 	});
 
 	$(".you").on("click",function(){
-		params.freeword = "洋食";
+		params.freeword = "洋";
 		$.getJSON(url_rest,params,function(result){
 			showResult(result);
 		});
 		$(".one").hide();
 		$(".image,.word,.distance").show();
+        startWatch();
 	});
 
 	$(".tyuu").on("click",function(){
-		params.freeword = "中華";
+		params.freeword = "中";
 		$.getJSON(url_rest,params,function(result){
 			showResult(result);
 		});
 		$(".one").hide();
 		$(".image,.word,.distance").show();
+        startWatch();
 	});
 
 	$(".ta").on("click",function(){
-		params.freeword = "デザート";
+		params.freeword = "デザート,お菓子,チェーン,";
 		$.getJSON(url_rest,params,function(result){
 			showResult(result);
 		});
 		$(".one").hide();
 		$(".image,.word,.distance").show();
+        startWatch();
 	});
     
     
@@ -101,9 +104,41 @@ jQuery(function(){
 		format:"json",
 		latitude:lat,
 		longitude:lng,
-		range:2,    
+		range:1,    
 		freeword: "",
 	};
+    
+    //////////// compassの設定////////////
+    
+    //コンパスのモニタリングを待つ
+    function startWatch(heading){
+        //3秒ごとにコンパスを更新
+        var options = {frenquency:3000};
+        watchID = navigator.compass.watchHeading(onSuccess, onError, options);
+    }
+    
+    //onSuccess 現在地の取得
+    function onSuccess(heading){
+        var element = document.getElementById("ori");
+        var shousuu = Math.floor(heading.magneticHeading);
+        element.innerHTML = "Orientation:" + shousuu;
+        
+        $("#right").css({
+           transform : "rotate(" + shousuu + "deg)" 
+        });
+        $("#left").css({
+           transform : "rotate(" + shousuu + "deg)" 
+        });
+        
+            
+    }
+    
+    //onError エラーの時の動作
+    function onError(compassError){
+        alert(compassError.code);
+    }
+///////////////////////////情報の設定/////////////    
+    
 
 
 /*
@@ -130,9 +165,9 @@ jQuery(function(){
 			alert("運命の出会い！？");
 			$.each(result.rest,function(i,item){
 				$(".result").append("<div class='" + "food" + "'>" +
-					"<img src='" + item.image_url.shop_image1 + "'>" +  
+					// "<img src='" + item.image_url.shop_image1 + "'>" +  
 					"<h1>" + item.name + "</h1>"+
-					"<p>" + item.latitude + " " + item.longitude + "</p>" +
+					// "<p>" + item.latitude + " " + item.longitude + "</p>" +
 					"<p>" + item.access.walk + "分" + "</p>" +
 					"<div id='" + "popo" + "'></div>" +
 					"<div id='" + "pipi" + "'></div>" +
@@ -271,7 +306,11 @@ jQuery(function(){
                             
                             //50メートル以内に入るとボタン出現
                             if(50 > response.routes[0].legs[0].distance.value){
-        						$("")
+                                $("#bye").empty();
+                                $(".image").empty();
+                                $(".distance").empty();
+        						$("#bye").append("<div id='" + "last" + "'>" + "到着！" + "</div>");
+                                $(".image").append("<img src='" + item.image_url.shop_image1 + "'>");
                             }
     
     					});
@@ -293,14 +332,14 @@ jQuery(function(){
 
 
 				//方角を計算
-				function geoDirection() {
+				function geoDirection(){
                     navigator.geolocation.getCurrentPosition(
     		        function(position){
                         var data = position.coords;
                     	var lat = data.latitude;
                     	var lng = data.longitude;
 
-    				  // 緯度経度 lat1, lng1 の点を出発として、緯度経度 lat2, lng2 への方位
+    				  // 緯度経度 lat, lng の点を出発として、緯度経度 lat2, lng2 への方位
     				  // 北を０度で右回りの角度０～３６０度
     				  var Y = Math.cos(item.longitude * Math.PI / 180) * Math.sin(item.latitude * Math.PI / 180 - lat * Math.PI / 180);
     				  var X = Math.cos(lng * Math.PI / 180) * Math.sin(item.longitude * Math.PI / 180) - Math.sin(lng * Math.PI / 180) * Math.cos(item.longitude * Math.PI / 180) * Math.cos(item.latitude * Math.PI / 180 - lat * Math.PI / 180);
@@ -308,11 +347,12 @@ jQuery(function(){
     				  if (dirE0 < 0) {
     				    dirE0 = dirE0 + 360; //0～360 にする。
     				  }
-    				  var dirN0 = (dirE0 + 90) % 360; //(dirE0+90)÷360の余りを出力 北向きが０度の方向                      
+    				  var dirN0 = (dirE0 + 90) % 360; //(dirE0+90)÷360の余りを出力 北向きが０度の方向
+                      // return dirN0;
+                      // var element = document.getElementById("heading");
+                      // element.innerHTML = "Orientation:" + shousuu;
                       
-                      
-                          
-                          // 店のある方を向く
+                          //店のある方を向く
             		        $("#right").css({
         			           transform : "rotate(" + dirN0 + "deg)" 
         			        });
@@ -324,21 +364,13 @@ jQuery(function(){
                         
     		        });
                 }
-                 
-                 
-
-            
-
-
+                
+                
+                geoDirection();
 				//全体の実装
 				setInterval(calcRoute,2000);
-				geoDirection();
                 initialize();
-
-
-
-
-
+ 
 				//$.eachの回数を一回に制限
 				if(i == 1){
 					return true;
@@ -349,21 +381,10 @@ jQuery(function(){
 
 			});
 
-
-
 		}else{
 			alert("検索結果が見つかりませんでした。");
 		}
-	};
-
-
-
-
-
-
-
-
-
+	};  //showresultの終了
 
 });
 
