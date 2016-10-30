@@ -8,7 +8,6 @@ jQuery(function(){
 	var data = position.coords;
 	var lat = data.latitude;
 	var lng = data.longitude;
-    var watchID = null; //方向
     
     
     
@@ -44,6 +43,7 @@ jQuery(function(){
 		});
 		$(".one").hide();
 		$(".image,.word,.distance").show();
+        startWatch();
 	});
 
 	$(".you").on("click",function(){
@@ -53,6 +53,7 @@ jQuery(function(){
 		});
 		$(".one").hide();
 		$(".image,.word,.distance").show();
+        startWatch();
 	});
 
 	$(".tyuu").on("click",function(){
@@ -62,6 +63,7 @@ jQuery(function(){
 		});
 		$(".one").hide();
 		$(".image,.word,.distance").show();
+        startWatch();
 	});
 
 	$(".ta").on("click",function(){
@@ -71,6 +73,7 @@ jQuery(function(){
 		});
 		$(".one").hide();
 		$(".image,.word,.distance").show();
+        startWatch();
 	});
     
     
@@ -104,6 +107,38 @@ jQuery(function(){
 		range:2,    
 		freeword: "",
 	};
+    
+    //////////// compassの設定////////////
+    
+    // //コンパスのモニタリングを待つ
+    function startWatch(heading){
+        //3秒ごとにコンパスを更新
+        var options = {frenquency:3000};
+        watchID = navigator.compass.watchHeading(onSuccess, onError, options);
+    }
+    
+    //onSuccess 現在地の取得
+    function onSuccess(heading){
+        var element = document.getElementById("ori");
+        var shousuu = Math.floor(heading.magneticHeading);
+        element.innerHTML = "Orientation:" + shousuu;
+        
+        $("#right").css({
+           transform : "rotate(" + shousuu + "deg)" 
+        });
+        $("#left").css({
+           transform : "rotate(" + shousuu + "deg)" 
+        });
+        
+            
+    }
+    
+    //onError エラーの時の動作
+    function onError(compassError){
+        alert(compassError.code);
+    }
+///////////////////////////情報の設定/////////////    
+    
 
 
 /*
@@ -129,19 +164,19 @@ jQuery(function(){
 		if(result.total_hit_count > 0){
 			alert("運命の出会い！？");
 			$.each(result.rest,function(i,item){
-				$(".result").append("<div class='" + "food" + "'>" +
-					// "<img src='" + item.image_url.shop_image1 + "'>" +  
-					"<h1>" + item.name + "</h1>"+
-					// "<p>" + item.latitude + " " + item.longitude + "</p>" +
-					"<p>" + item.access.walk + "分" + "</p>" +
-					"<div id='" + "popo" + "'></div>" +
-					"<div id='" + "pipi" + "'></div>" +
-					"<div id='" + "map-canvas" + "'></div>" +
-					"<div id='" + "comment" + "'></div>" +
-					"<div id='" + "hougaku" + "'></div>" +
-                    "<div id='" + "toutyaku" + "'>" + "到着したよ" + "</div>" +
-					"</div>"
-				);
+				// $(".result").append("<div class='" + "food" + "'>" +
+				// 	// "<img src='" + item.image_url.shop_image1 + "'>" +  
+				// 	"<h1>" + item.name + "</h1>"+
+				// 	// "<p>" + item.latitude + " " + item.longitude + "</p>" +
+				// 	"<p>" + item.access.walk + "分" + "</p>" +
+				// 	"<div id='" + "popo" + "'></div>" +
+				// 	"<div id='" + "pipi" + "'></div>" +
+				// 	"<div id='" + "map-canvas" + "'></div>" +
+				// 	"<div id='" + "comment" + "'></div>" +
+				// 	"<div id='" + "hougaku" + "'></div>" +
+    //                 "<div id='" + "toutyaku" + "'>" + "到着したよ" + "</div>" +
+				// 	"</div>"
+				// );
 				
 
 				var rendererOptions = {
@@ -210,8 +245,7 @@ jQuery(function(){
                     //最初に中身をリセット
                     document.getElementById('kyori').innerHTML = "";
                     $(".word").empty();
-                    $("#bye").empty();
-                    $("#lastimg").empty();
+  
                     
                     
                     
@@ -230,7 +264,7 @@ jQuery(function(){
 
     					directionsService.route(request,function(response,status){
     						if(status == google.maps.DirectionsStatus.OK){
-    							document.getElementById('kyori').innerHTML+= response.routes[0].legs[0].distance.value; //+ "m";
+    							document.getElementById('kyori').innerHTML+= response.routes[0].legs[0].distance.value; //+ "m"/;
     							directionsDisplay.setDirections(response);
     						}
     
@@ -254,25 +288,33 @@ jQuery(function(){
     
     						if(response.routes[0].legs[0].distance.value > 300){
     							$(".word").append("<p>" + hyouka.comment + "</p>");
-    						}else if(300>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>200){
+    						}else if(300>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>270){
                                 $(".word").append("<p>" + "しゅっぱつだよ〜" + "</p>");
-    						}else if(200>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>100){
+    						}else if(270>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>250){
+                                $(".word").append("<p>" + "わくわくだね〜" + "</p>");
+    						}else if(250>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>220){
+                                $(".word").append("<p>" + "おなかすいた〜？" + "</p>");
+    						}else if(220>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>200){
+                                $(".word").append("<p>" + "くんくんくん" + "</p>");
+    						}else if(200>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>175){
+                                $(".word").append("<p>" + "どんなお店かな" + "</p>");
+    						}else if(175>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>150){
+                                $(".word").append("<p>" + "おいしいにおいがするぞ" + "</p>");
+    						}else if(150>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>125){
+                                $(".word").append("<p>" + "まちきれん〜" + "</p>");
+    						}else if(125>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>100){
     							$(".word").append("<p>" + "よだれがとまらないよ" + "</p>");
-    						}else if(100>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>50){
-    							$(".word").append("<p>" + "これはカレーかな？" + "</p>");
-    						}else if(50>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>20){
-    							$(".word").append("<p>" + "もうそろそろだ" + "</p>");
-    						}else{
-                                $(".image,.word,.distance").hide();
-                            	$(".image2,.word2,.distance2").show();
-                                $("#lastimg").append("<img src='" + item.image_url.shop_image1 + "'>");
+    						}else if(100>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>75){
+    							$(".word").append("<p>" + "ちかい、、ちかいぞ！！" + "</p>");
+    						}else if(75>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>50){
+    							$(".word").append("<p>" + "hujrfaksdf!!!!" + "</p>");
+    						}else if(50>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>0){
+        						$(".word").append("<p>" + "ついた！！！" + "</p>");
+                                $(".image,.distance").empty();
+                                $(".distance").append("<a href='last.html'>" + "お別れクリック" + "</a>")
+                                $(".image").append("<img src='" + item.image_url.shop_image1 + "'>");
     						}
-                            
-                            
-                            //50メートル以内に入るとボタン出現
-                            if(50 > response.routes[0].legs[0].distance.value){
-        						$("#bye").append("<div id='" + "last" + "'>" + "到着！" + "</div>");
-                            }
+             
     
     					});
 
@@ -293,14 +335,14 @@ jQuery(function(){
 
 
 				//方角を計算
-				function geoDirection() {
+				function geoDirection(){
                     navigator.geolocation.getCurrentPosition(
     		        function(position){
                         var data = position.coords;
                     	var lat = data.latitude;
                     	var lng = data.longitude;
 
-    				  // 緯度経度 lat1, lng1 の点を出発として、緯度経度 lat2, lng2 への方位
+    				  // 緯度経度 lat, lng の点を出発として、緯度経度 lat2, lng2 への方位
     				  // 北を０度で右回りの角度０～３６０度
     				  var Y = Math.cos(item.longitude * Math.PI / 180) * Math.sin(item.latitude * Math.PI / 180 - lat * Math.PI / 180);
     				  var X = Math.cos(lng * Math.PI / 180) * Math.sin(item.longitude * Math.PI / 180) - Math.sin(lng * Math.PI / 180) * Math.cos(item.longitude * Math.PI / 180) * Math.cos(item.latitude * Math.PI / 180 - lat * Math.PI / 180);
@@ -309,11 +351,10 @@ jQuery(function(){
     				    dirE0 = dirE0 + 360; //0～360 にする。
     				  }
     				  var dirN0 = (dirE0 + 90) % 360; //(dirE0+90)÷360の余りを出力 北向きが０度の方向
+                      // return dirN0;
+                      // var element = document.getElementById("heading");
+                      // element.innerHTML = "Orientation:" + shousuu;
                       
-                      
-                      
-                      
-                          
                           //店のある方を向く
             		        $("#right").css({
         			           transform : "rotate(" + dirN0 + "deg)" 
@@ -321,27 +362,18 @@ jQuery(function(){
         			        $("#left").css({
         			           transform : "rotate(" + dirN0 + "deg)" 
         			        });
-                            // alert(dirN0);
+                            alert(dirN0);
                    
                         
     		        });
-                 }
-                 
-                 
-
-            
-
-
+                }
+                
+                
+                geoDirection();
 				//全体の実装
 				setInterval(calcRoute,2000);
-                geoDirection();
                 initialize();
-
-
-
-
-
-
+ 
 				//$.eachの回数を一回に制限
 				if(i == 1){
 					return true;
@@ -352,21 +384,10 @@ jQuery(function(){
 
 			});
 
-
-
 		}else{
 			alert("検索結果が見つかりませんでした。");
 		}
-	};
-
-
-
-
-
-
-
-
-
+	};  //showresultの終了
 
 });
 

@@ -5,7 +5,6 @@ jQuery(function(){
     //変数の指定
     var watchID = null; //方向
     document.addEventListener("deviceready",onDeviceReady,false);  //cordova読み込みまで待つ
-    $("#wa").on("click",onDeviceReady);
     
     //cordova待ち
     function onDeviceReady(){

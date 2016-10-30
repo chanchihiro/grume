@@ -16,18 +16,22 @@
 }
 @keyframes kaiten {
   0% {
-    transform: rotate(-10deg);
+    transform: rotate5deg);
   }
   100% {
-    transform: rotate(10deg);
+    transform: rotate(5deg);
   }
 }
 .first, .second, .third {
-  animation: horizontal 1s ease-in-out infinite alternate;
+  /*animation: horizontal 1s ease-in-out infinite alternate;*/
 }
 
 .fimg, .simg, .aimg {
   animation: kaiten 0.7s ease-in-out infinite alternate;
+}
+
+#muhyoujou{
+    animation: kaiten 0.7s ease-in-out infinite alternate;
 }
 
 /*# sourceMappingURL=animation.css.map */

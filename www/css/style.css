@@ -134,6 +134,11 @@ input:hover{
 	margin: 0 auto;
 }
 
+#muhyoujou{
+    width: 60%;
+    top: 75px;
+}
+
 .wa{
 	position: absolute;
 	top: 0;
@@ -296,6 +301,13 @@ header h1{
 	right: 0;
 	left: 0;
 	margin: 0 auto;
+}
+
+.distance a{
+    text-decoration:none;
+    color: #000;
+    font-size: 30px;
+    font-weight: bold;
 }
 
 
