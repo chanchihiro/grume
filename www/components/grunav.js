@@ -110,6 +110,7 @@ jQuery(function(){
     
     //////////// compassの設定////////////
     
+    // //コンパスのモニタリングを待つ
     //コンパスのモニタリングを待つ
     function startWatch(heading){
         //3秒ごとにコンパスを更新
@@ -164,19 +165,19 @@ jQuery(function(){
 		if(result.total_hit_count > 0){
 			alert("運命の出会い！？");
 			$.each(result.rest,function(i,item){
-				$(".result").append("<div class='" + "food" + "'>" +
-					// "<img src='" + item.image_url.shop_image1 + "'>" +  
-					"<h1>" + item.name + "</h1>"+
-					// "<p>" + item.latitude + " " + item.longitude + "</p>" +
-					"<p>" + item.access.walk + "分" + "</p>" +
-					"<div id='" + "popo" + "'></div>" +
-					"<div id='" + "pipi" + "'></div>" +
-					"<div id='" + "map-canvas" + "'></div>" +
-					"<div id='" + "comment" + "'></div>" +
-					"<div id='" + "hougaku" + "'></div>" +
-                    "<div id='" + "toutyaku" + "'>" + "到着したよ" + "</div>" +
-					"</div>"
-				);
+				// $(".result").append("<div class='" + "food" + "'>" +
+				// 	// "<img src='" + item.image_url.shop_image1 + "'>" +  
+				// 	"<h1>" + item.name + "</h1>"+
+				// 	// "<p>" + item.latitude + " " + item.longitude + "</p>" +
+				// 	"<p>" + item.access.walk + "分" + "</p>" +
+				// 	"<div id='" + "popo" + "'></div>" +
+				// 	"<div id='" + "pipi" + "'></div>" +
+				// 	"<div id='" + "map-canvas" + "'></div>" +
+				// 	"<div id='" + "comment" + "'></div>" +
+				// 	"<div id='" + "hougaku" + "'></div>" +
+    //                 "<div id='" + "toutyaku" + "'>" + "到着したよ" + "</div>" +
+				// 	"</div>"
+				// );
 				
 
 				var rendererOptions = {
@@ -245,8 +246,7 @@ jQuery(function(){
                     //最初に中身をリセット
                     document.getElementById('kyori').innerHTML = "";
                     $(".word").empty();
-                    $("#bye").empty();
-                    $("#lastimg").empty();
+  
                     
                     
                     
@@ -265,7 +265,7 @@ jQuery(function(){
 
     					directionsService.route(request,function(response,status){
     						if(status == google.maps.DirectionsStatus.OK){
-    							document.getElementById('kyori').innerHTML+= response.routes[0].legs[0].distance.value; //+ "m";
+    							document.getElementById('kyori').innerHTML+= response.routes[0].legs[0].distance.value; //+ "m"/;
     							directionsDisplay.setDirections(response);
     						}
     
@@ -289,19 +289,33 @@ jQuery(function(){
     
     						if(response.routes[0].legs[0].distance.value > 300){
     							$(".word").append("<p>" + hyouka.comment + "</p>");
-    						}else if(300>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>200){
+    						}else if(300>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>270){
                                 $(".word").append("<p>" + "しゅっぱつだよ〜" + "</p>");
-    						}else if(200>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>100){
+    						}else if(270>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>250){
+                                $(".word").append("<p>" + "わくわくだね〜" + "</p>");
+    						}else if(250>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>220){
+                                $(".word").append("<p>" + "おなかすいた〜？" + "</p>");
+    						}else if(220>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>200){
+                                $(".word").append("<p>" + "くんくんくん" + "</p>");
+    						}else if(200>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>175){
+                                $(".word").append("<p>" + "どんなお店かな" + "</p>");
+    						}else if(175>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>150){
+                                $(".word").append("<p>" + "おいしいにおいがするぞ" + "</p>");
+    						}else if(150>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>125){
+                                $(".word").append("<p>" + "まちきれん〜" + "</p>");
+    						}else if(125>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>100){
     							$(".word").append("<p>" + "よだれがとまらないよ" + "</p>");
-    						}else if(100>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>50){
-    							$(".word").append("<p>" + "これはカレーかな？" + "</p>");
-    						}else if(50>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>20){
-    							$(".word").append("<p>" + "もうそろそろだ" + "</p>");
-    						}else{
-                                $(".image,.word,.distance").hide();
-                            	$(".image2,.word2,.distance2").show();
-                                $("#lastimg").append("<img src='" + item.image_url.shop_image1 + "'>");
+    						}else if(100>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>75){
+    							$(".word").append("<p>" + "ちかい、、ちかいぞ！！" + "</p>");
+    						}else if(75>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>50){
+    							$(".word").append("<p>" + "hujrfaksdf!!!!" + "</p>");
+    						}else if(50>response.routes[0].legs[0].distance.value){
+        						$(".word").append("<p>" + "ついた！！！" + "</p>");
+                                $(".image,.distance").empty();
+                                $(".distance").append("<a href='last.html'>" + "お別れクリック" + "</a>")
+                                $(".image").append("<img src='" + item.image_url.shop_image1 + "'>");
     						}
+             
                             
                             
                             //50メートル以内に入るとボタン出現
