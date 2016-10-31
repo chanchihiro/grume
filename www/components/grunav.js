@@ -233,9 +233,20 @@ jQuery(function(){
 					//詳細設定
 				}
 
+				function getkyori(){
+					navigator.geolocation.watchPosition(getSuccess,geoError,{enableHighAccuracy:true});
+				}
+
+				// var getSuccess = function(event){
+				// 	var data = event.coords;
+				// 	var lat = data.latitude;
+				// 	var lng = data.longitude;
+				// 	var me = new google.maps.LatLng(lat,lng);
+				// };
+
 
 				function calcRoute(){
-    				navigator.geolocation.getCurrentPosition(
+    				navigator.geolocation.watchPosition(
 						function(position){
 
 					var data = position.coords;
@@ -243,9 +254,9 @@ jQuery(function(){
 					var lng = data.longitude;
 					var me = new google.maps.LatLng(lat,lng);
                     
-                    //最初に中身をリセット
-                    document.getElementById('kyori').innerHTML = "";
-                    $(".word").empty();
+                    // //最初に中身をリセット
+                    // document.getElementById('kyori').innerHTML = "";
+                    // $(".word").empty();
   
                     
                     
@@ -382,7 +393,7 @@ jQuery(function(){
                 
                 geoDirection();
 				//全体の実装
-				setInterval(calcRoute,2000);
+				calcRoute();
                 initialize();
  
 				//$.eachの回数を一回に制限
