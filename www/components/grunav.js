@@ -104,7 +104,7 @@ jQuery(function(){
         format:"json",
         latitude:lat,
         longitude:lng,
-        range:3,    
+        range:2,    
         freeword: "",
     };
     
@@ -209,29 +209,29 @@ jQuery(function(){
 
 
 
-                function initialize(){
-                    // 地図のオプションの設定
-                    var mapOptions = {
-                        zoom:15,
-                        center:me,
-                    };
-                    map = new google.maps.Map(canvas,mapOptions);
-                    directionsDisplay.setMap(map);
-                    directionsDisplay.setPanel(road);
-                    //マーカーを立てる
-                    new google.maps.Marker({
-                        map:map,
-                        position:latlng,
-                    });
-                    new google.maps.Marker({
-                        map:map,
-                        position:me,
-                    });
-                    //総距離を求める
-                    function kyori(){
-                        computeTotalDistance(directionsDisplay.directions);}
-                    //詳細設定
-                }
+                // function initialize(){
+                //  // 地図のオプションの設定
+                //  var mapOptions = {
+                //      zoom:15,
+                //      center:me,
+                //  };
+                //  map = new google.maps.Map(canvas,mapOptions);
+                //  directionsDisplay.setMap(map);
+                //  directionsDisplay.setPanel(road);
+                //  //マーカーを立てる
+                //  new google.maps.Marker({
+                //      map:map,
+                //      position:latlng,
+                //  });
+                //  new google.maps.Marker({
+                //      map:map,
+                //      position:me,
+                //  });
+                //  //総距離を求める
+                //  function kyori(){
+                //      computeTotalDistance(directionsDisplay.directions);}
+                //  //詳細設定
+                // }
                 
                 
                 //////////////////////////////////////////////////////////試作品
@@ -407,7 +407,8 @@ jQuery(function(){
 
 
                 //方角を計算 + 距離の計算
-                    navigator.geolocation.watchPosition(
+                function seikousitai(){
+                    navigator.geolocation.getCurrentPosition(
                     function(position){
                         //現在地の緯度経度
                             var pos = position.coords;
@@ -474,7 +475,7 @@ jQuery(function(){
                         // var kekka = Math.ceil(unchi(lat,lng,slat,slng));
                         var kekka = calc_distance(ido,keido,slat,slng);
                         document.querySelector('#kyori').textContent = kekka;
-                        // alert(kekka);
+                        alert(kekka);
 
                       // 緯度経度 lat, lng の点を出発として、緯度経度 lat2, lng2 への方位
                       // 北を０度で右回りの角度０～３６０度
@@ -496,17 +497,18 @@ jQuery(function(){
                             $("#left").css({
                                transform : "rotate(" + dirN0 + "deg)" 
                             });
-                            // alert(dirN0);
+                            alert(dirN0);
                    
                         
                     });
-                
+                }
                 
                 
                 // getkyori();
+                setInterval(seikousitai,2000);
                 //全体の実装
                 // calcRoute();
-                initialize();
+                // initialize();
  
                 //$.eachの回数を一回に制限
                 if(i == 1){
