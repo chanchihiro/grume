@@ -112,32 +112,32 @@ jQuery(function(){
     
     // //コンパスのモニタリングを待つ
     //コンパスのモニタリングを待つ
-    function startWatch(heading){
-        //3秒ごとにコンパスを更新
-        var options = {frenquency:3000};
-        watchID = navigator.compass.watchHeading(onSuccess, onError, options);
-    }
-    
-    //onSuccess 現在地の取得
-    function onSuccess(heading){
-        var element = document.getElementById("ori");
-        var shousuu = Math.floor(heading.magneticHeading);
-        element.innerHTML = "Orientation:" + shousuu;
-        
-        $("#right").css({
-           transform : "rotate(" + shousuu + "deg)" 
-        });
-        $("#left").css({
-           transform : "rotate(" + shousuu + "deg)" 
-        });
-        
-            
-    }
-    
-    //onError エラーの時の動作
-    function onError(compassError){
-        alert(compassError.code);
-    }
+    // function startWatch(heading){
+    //     //3秒ごとにコンパスを更新
+    //     var options = {frenquency:3000};
+    //     watchID = navigator.compass.watchHeading(onSuccess, onError, options);
+    // }
+    // 
+    // //onSuccess 現在地の取得
+    // function onSuccess(heading){
+    //     var element = document.getElementById("ori");
+    //     var shousuu = Math.floor(heading.magneticHeading);
+    //     element.innerHTML = "Orientation:" + shousuu;
+    //     
+    //     $("#right").css({
+    //        transform : "rotate(" + shousuu + "deg)" 
+    //     });
+    //     $("#left").css({
+    //        transform : "rotate(" + shousuu + "deg)" 
+    //     });
+    //     
+    //         
+    // }
+    // 
+    // //onError エラーの時の動作
+    // function onError(compassError){
+    //     alert(compassError.code);
+    // }
 ///////////////////////////情報の設定/////////////    
     
 
@@ -408,7 +408,7 @@ jQuery(function(){
 
 				//方角を計算 + 距離の計算
 				function geoDirection(){
-                    navigator.geolocation.watchPosition(
+                    navigator.geolocation.getCurrentPosition(
     		        function(position){
                         //現在地の緯度経度
                             var data = position.coords;
@@ -418,21 +418,64 @@ jQuery(function(){
             				var slat = item.latitude;
         					var slng = item.longitude;
                         
-                        //距離を計算する
-                        var unchi = function getDistance(lat,lng,slat,slng){
-            				function radians(deg){
-    							return deg * Math.PI / 180;
-    						}
-    
-    						return 6378.14 * Math.cos(Math.cos(radians(slat))*
-    							Math.cos(radians(slat))*
-    							Math.cos(radians(slng) - radians(lng))+
-    							Math.sin(radians(lat))*
-    							Math.sin(radians(slat)));
-        				}
+    //                     //距離を計算する
+    //                     var unchi = function getDistance(lat,lng,slat,slng){
+    //         				function radians(deg){
+    // 							return deg * Math.PI / 180;
+    // 						}
+    // 
+    // 						return 6378.14 * Math.acos(Math.cos(radians(slat))*
+    // 							Math.cos(radians(slat))*
+    // 							Math.cos(radians(slng) - radians(lng))+
+    // 							Math.sin(radians(lat))*
+    // 							Math.sin(radians(slat)));
+    //     				}
                         
-                        var kekka = Math.ceil(unchi(lat,lng,slat,slng));
+                        // 距離計算関数
+                        function calc_distance(lat_1, lng_1, lat_2, lng_2) {
+                          // 測地系定数
+                          // GRS80 ( 世界測地系 ) <- 現在の日本での標準
+                          const RX = 6378137.000000  // 赤道半径
+                          const RY = 6356752.314140  // 極半径
+                          // ベッセル楕円体 ( 旧日本測地系 ) <- 以前の日本での標準
+                          //const RX = 6377397.155000  // 赤道半径
+                          //const RY = 6356079.000000  // 極半径
+                          // WGS84 ( GPS ) <- Google はこの測地系
+                          //const RX = 6378137.000000  // 赤道半径
+                          //const RY = 6356752.314245  // 極半径
+                        
+                          // 2点の経度の差を計算 ( ラジアン )
+                          var a_x = lng_1 * Math.PI / 180 - lng_2 * Math.PI / 180;
+                        
+                          // 2点の緯度の差を計算 ( ラジアン )
+                          var a_y = lat_1 * Math.PI / 180 - lat_2 * Math.PI / 180;
+                        
+                          // 2点の緯度の平均を計算
+                          var p = (lat_1 * Math.PI / 180 + lat_2 * Math.PI / 180) / 2;
+                        
+                          // 離心率を計算
+                          var e = Math.sqrt((RX * RX - RY * RY) / (RX * RX));
+                        
+                          // 子午線・卯酉線曲率半径の分母Wを計算
+                          var w = Math.sqrt(1 - e * e * Math.sin(p) * Math.sin(p));
+                        
+                          // 子午線曲率半径を計算
+                          var m = RX * (1 - e * e) / (w * w * w);
+                        
+                          // 卯酉線曲率半径を計算
+                          var n = RX / w;
+                        
+                          // 距離を計算
+                          var d  = Math.pow(a_y * m, 2) + Math.pow(a_x * n * Math.cos(p), 2);
+                          d = Math.round(Math.sqrt(d));
+                        
+                          return d;
+                        }
+                        
+                        // var kekka = Math.ceil(unchi(lat,lng,slat,slng));
+                        var kekka = calc_distance(lat,lng,slat,slng);
         				document.querySelector('#kyori').textContent = kekka;
+                        // alert(kekka);
 
     				  // 緯度経度 lat, lng の点を出発として、緯度経度 lat2, lng2 への方位
     				  // 北を０度で右回りの角度０～３６０度
