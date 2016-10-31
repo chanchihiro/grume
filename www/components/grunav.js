@@ -475,7 +475,6 @@ jQuery(function(){
                         // var kekka = Math.ceil(unchi(lat,lng,slat,slng));
                         var kekka = calc_distance(ido,keido,slat,slng);
                         document.querySelector('#kyori').textContent = kekka;
-                        alert(kekka);
 
                       // 緯度経度 lat, lng の点を出発として、緯度経度 lat2, lng2 への方位
                       // 北を０度で右回りの角度０～３６０度
@@ -496,9 +495,7 @@ jQuery(function(){
                             });
                             $("#left").css({
                                transform : "rotate(" + dirN0 + "deg)" 
-                            });
-                            alert(dirN0);
-                   
+                            });                   
                         
                     });
                 }
