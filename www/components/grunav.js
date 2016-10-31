@@ -104,7 +104,7 @@ jQuery(function(){
 		format:"json",
 		latitude:lat,
 		longitude:lng,
-		range:4,    
+		range:3,    
 		freeword: "",
 	};
     
@@ -431,7 +431,7 @@ jQuery(function(){
     							Math.sin(radians(slat)));
         				}
                         
-                        var kekka = Math.round(unchi);
+                        var kekka = Math.ceil(unchi(lat,lng,slat,slng));
         				document.querySelector('#kyori').textContent = kekka;
 
     				  // 緯度経度 lat, lng の点を出発として、緯度経度 lat2, lng2 への方位
