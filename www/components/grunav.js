@@ -104,7 +104,7 @@ jQuery(function(){
         format:"json",
         latitude:lat,
         longitude:lng,
-        range:2,    
+        range:1,    
         freeword: "",
     };
     
@@ -142,24 +142,6 @@ jQuery(function(){
     
 
 
-/*
-    var showResult = function(result){  //表示する関数の設定
-        if(result.total_hit_count > 0 ){
-            var res = "";
-            alert( result.total_hit_count + "件の結果が見つかりました。");
-            for( var i in result.rest){
-                res += result.rest[i].name;
-            $(".result").append("<h1>"+res+"</h1>");
-            }
-            for( var i in result.rest){
-                pla += result.rest[i].access.station;
-            $(".result").append("<p>"+pla+"</p>");
-            }
-        }else{
-            alert("検索結果が見つかりませんでした。");
-        }
-    };
-*/
 
     var showResult = function(result){
         if(result.total_hit_count > 0){
@@ -205,96 +187,19 @@ jQuery(function(){
                 //canvasにmapOptionsの内容の地図のインスタンスの作成のための変数
                 var map;
 //                 
-//                 //店の方角
+//              //店の方角
+                var slat = item.latitude;
+                var slng = item.longitude;
+                var Y = Math.cos(slng * Math.PI / 180) * Math.sin(slat * Math.PI / 180 - lat * Math.PI / 180);
+                var X = Math.cos(lng * Math.PI / 180) * Math.sin(slng * Math.PI / 180) - Math.sin(lng * Math.PI / 180) * Math.cos(slng * Math.PI / 180) * Math.cos(slat * Math.PI / 180 - lat * Math.PI / 180);
+                var dirE0 = 180 * Math.atan2(Y, X) / Math.PI; // 東向きが０度の方向
+                if (dirE0 < 0) {
+                    dirE0 = dirE0 + 360; //0～360 にする。
+                }
+                var dirN0 = (dirE0 + 90) % 360;
+                var dirN0 = Math.floor(dirN0);
 
 
-
-                // function initialize(){
-                //  // 地図のオプションの設定
-                //  var mapOptions = {
-                //      zoom:15,
-                //      center:me,
-                //  };
-                //  map = new google.maps.Map(canvas,mapOptions);
-                //  directionsDisplay.setMap(map);
-                //  directionsDisplay.setPanel(road);
-                //  //マーカーを立てる
-                //  new google.maps.Marker({
-                //      map:map,
-                //      position:latlng,
-                //  });
-                //  new google.maps.Marker({
-                //      map:map,
-                //      position:me,
-                //  });
-                //  //総距離を求める
-                //  function kyori(){
-                //      computeTotalDistance(directionsDisplay.directions);}
-                //  //詳細設定
-                // }
-                
-                
-                //////////////////////////////////////////////////////////試作品
-                
-//                 function getkyori(){
-//                  navigator.geolocation.getCurrentPosition(
-//                         function(event){
-//                          //現在地の緯度経度
-//                          var data = event.coords;
-//                          var lat = data.latitude;
-//                          var lng = data.longitude;
-//         
-//                          //お店の緯度経度
-//                          var slat = item.latitude;
-//                          var slat = item.longitude;
-//         
-//                          //距離の計算
-//                          function getDistance(lat,lng,lat1,lat2){
-//                              function radians(deg){
-//                                  return deg * Math.PI / 180;
-//                              }
-//         
-//                              return 6378.14 * Math.cos(Math.cos(radians(lat1))*
-//                                  Math.cos(radians(lat1))*
-//                                  Math.cos(radians(lng1) - radians(lng))+
-//                                  Math.sin(radians(lat))*
-//                                  Math.sin(radians(lat1)));
-//                          }
-//                          document.querySelector('#kyori').textContent =getDistance(lat, lng, lat1, lat2);
-//                      }
-//                     );
-//              }
-// 
-//              var getSuccess = function(event){
-//                  //現在地の緯度経度
-//                  var data = event.coords;
-//                  var lat = data.latitude;
-//                  var lng = data.longitude;
-// 
-//                  //お店の緯度経度
-//                  var lat1 = item.latitude;
-//                  var lat2 = item.longitude;
-// 
-//                  //距離の計算
-//                  function getDistance(lat,lng,lat1,lat2){
-//                      function radians(deg){
-//                          return deg * Math.PI / 180;
-//                      }
-// 
-//                      return 6378.14 * Math.acos(Math.cos(radians(lat1))*
-//                          Math.cos(radians(lat1))*
-//                          Math.cos(radians(lng1) - radians(lng))+
-//                          Math.sin(radians(lat))*
-//                          Math.sin(radians(lat1)));
-//                  }
-//                  document.querySelector('#kyori').textContent = "100";
-//              };
-// 
-//              var geoError = function(){
-//                  alert("エラー");
-//              };
-//////////////////////////////////////////////////////////////試作品終了
-// 
                 var seikou_option = {
                     enableHighAccuracy:1,    // 高精度を要求する
                     timeout: 60000,              // 最大待ち時間（ミリ秒）
@@ -372,17 +277,7 @@ jQuery(function(){
                                 $(".distance").append("<a href='last.html'>" + "お別れクリック" + "</a>")
                                 $(".image").append("<img src='" + item.image_url.shop_image1 + "'>");
                             }
-             
-                            
-                            
-                            //50メートル以内に入るとボタン出現
-              //               if(50 > response.routes[0].legs[0].distance.value){
-              //                   $("#bye").empty();
-              //                   $(".image").empty();
-              //                   $(".distance").empty();
-                                // $("#bye").append("<div id='" + "last" + "'>" + "到着！" + "</div>");
-              //                   $(".image").append("<img src='" + item.image_url.shop_image1 + "'>");
-              //               }
+   
     
                         });
 
@@ -390,18 +285,7 @@ jQuery(function(){
                 }
 
 
-                //総距離合計
-                // function kyori(result){
-                //  var total = 0;
-                //  var myroute = result.routes[0];
-                //  for (i = 0; i < myroute.legs.length; i++){
-                //      total += myroute.legs[i].distance.value;
-                //  }
-                //  total = total / 1000;
-                //  document.getElementById("total").innerHTML = total + " km";
-                // }
-
-
+        
                 //方角を計算 + 距離の計算
                 function seikousitai(){
                     // document.getElementById('kyori').innerHTML = "";
@@ -415,64 +299,6 @@ jQuery(function(){
                             var slat = item.latitude;
                             var slng = item.longitude;
                         
-    //                     //距離を計算する
-    //                     var unchi = function getDistance(lat,lng,slat,slng){
-    //                      function radians(deg){
-    //                          return deg * Math.PI / 180;
-    //                      }
-    // 
-    //                      return 6378.14 * Math.acos(Math.cos(radians(slat))*
-    //                          Math.cos(radians(slat))*
-    //                          Math.cos(radians(slng) - radians(lng))+
-    //                          Math.sin(radians(lat))*
-    //                          Math.sin(radians(slat)));
-    //                  }
-                        
-                        // 距離計算関数
-                        // function calc_distance(lat_1,lng_1,lat_2,lng_2) {
-                        //   // 測地系定数
-                        //   // GRS80 ( 世界測地系 ) <- 現在の日本での標準
-                        //   var RX = 6378137.000000  // 赤道半径
-                        //   var RY = 6356752.314140  // 極半径
-                        //   // ベッセル楕円体 ( 旧日本測地系 ) <- 以前の日本での標準
-                        //   //const RX = 6377397.155000  // 赤道半径
-                        //   //const RY = 6356079.000000  // 極半径
-                        //   // WGS84 ( GPS ) <- Google はこの測地系
-                        //   //const RX = 6378137.000000  // 赤道半径
-                        //   //const RY = 6356752.314245  // 極半径
-                        // 
-                        //   // 2点の経度の差を計算 ( ラジアン )
-                        //   var a_x = lng_1 * Math.PI / 180 - lng_2 * Math.PI / 180;
-                        // 
-                        //   // 2点の緯度の差を計算 ( ラジアン )
-                        //   var a_y = lat_1 * Math.PI / 180 - lat_2 * Math.PI / 180;
-                        // 
-                        //   // 2点の緯度の平均を計算
-                        //   var p = (lat_1 * Math.PI / 180 + lat_2 * Math.PI / 180) / 2;
-                        // 
-                        //   // 離心率を計算
-                        //   var e = Math.sqrt((RX * RX - RY * RY) / (RX * RX));
-                        // 
-                        //   // 子午線・卯酉線曲率半径の分母Wを計算
-                        //   var w = Math.sqrt(1 - e * e * Math.sin(p) * Math.sin(p));
-                        // 
-                        //   // 子午線曲率半径を計算
-                        //   var m = RX * (1 - e * e) / (w * w * w);
-                        // 
-                        //   // 卯酉線曲率半径を計算
-                        //   var n = RX / w;
-                        // 
-                        //   // 距離を計算
-                        //   var d  = Math.pow(a_y * m, 2) + Math.pow(a_x * n * Math.cos(p), 2);
-                        //   d = Math.round(Math.sqrt(d));
-                        // 
-                        //   return d;
-                        // }
-                        // 
-                        // // var kekka = Math.ceil(unchi(lat,lng,slat,slng));
-                        // var kekka = calc_distance(ido,keido,slat,slng);
-                        // document.getElementById('kyori').innerHTML = kekka;
-                        // alert(kekka);
 
                       // 緯度経度 lat, lng の点を出発として、緯度経度 lat2, lng2 への方位
                       // 北を０度で右回りの角度０～３６０度
@@ -483,21 +309,46 @@ jQuery(function(){
                         dirE0 = dirE0 + 360; //0～360 にする。
                       }
                       var dirN0 = (dirE0 + 90) % 360; //(dirE0+90)÷360の余りを出力 北向きが０度の方向
-                      // return dirN0;
+                      return dirN0;
                       // var element = document.getElementById("heading");
                       // element.innerHTML = "Orientation:" + shousuu;
-                      
                           //店のある方を向く
-                            $("#right").css({
-                               transform : "rotate(" + dirN0 + "deg)" 
-                            });
-                            $("#left").css({
-                               transform : "rotate(" + dirN0 + "deg)" 
-                            });
+                         //    $("#right").css({
+                            //    transform : "rotate(" + dirN0 + "deg)" 
+                            // });
+                            // $("#left").css({
+                            //    transform : "rotate(" + dirN0 + "deg)" 
+                            // });
                             // alert(dirN0);
-                   
-                        
                     });
+                }
+                
+                function startWatch(heading){
+                    //3秒ごとにコンパスを更新
+                    var options = {frenquency:3000};
+                    watchID = navigator.compass.watchHeading(onSuccess, onError, options);
+                }
+                
+                //onSuccess 現在地の取得
+                function onSuccess(heading){
+                    var element = document.getElementById("ori");
+                    var shousuu = Math.floor(heading.magneticHeading);
+                    // alert(seikousitai());
+                    element.innerHTML = "Orientation:" + (shousuu + dirN0);
+                    
+                    $("#right").css({
+                       transform : "rotate(" + (shousuu + dirN0) + "deg)" 
+                    });
+                    $("#left").css({
+                       transform : "rotate(" + (shousuu + dirN0) + "deg)" 
+                    });
+                    
+                        
+                }
+                
+                //onError エラーの時の動作
+                function onError(compassError){
+                    alert(compassError.code);
                 }
                 
                 
@@ -505,6 +356,8 @@ jQuery(function(){
                 // setInterval(calcRoute,3000);
                 calcRoute();
                 // seikousitai();
+                startWatch();
+                seikousitai();
                 //全体の実装
                 // calcRoute();
                 // initialize();
