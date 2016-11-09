@@ -135,14 +135,14 @@ input:hover{
 }
 
 #muhyoujou{
-    width: 60%;
-    top: 75px;
+    width: 67%;
+    top: 68px;
 }
 
 .wa{
 	position: absolute;
 	top: 0;
-	left: 0;
+	left: -10px;
     font-family: ema;
     margin: 45px  0 0 20px;
     z-index: 10;
@@ -151,22 +151,22 @@ input:hover{
 .you{
 	position: absolute;
 	top: 0;
-	right: 0;
+	right: -10px;
     margin: 45px  20px 0 0;
     z-index: 10;
 }
 
 .tyuu{
 	position: absolute;
-	bottom: 20px;
-	left: 0;
+	bottom: 10px;
+	left: -10px;
     margin: 0 0 30px 20px;
 }
 
 .ta{
 	position: absolute;
-	bottom: 20px;
-	right: 0;
+	bottom: 10px;
+	right: -10px;
     margin: 0 20px 30px 0;
 }
 
@@ -209,6 +209,8 @@ input:hover{
 }
 
 .word{
+    background-image: url("comment7.png");
+    background-size: 40%;
 	width: 100%;
     height: 100px;
     position: relative;
@@ -218,7 +220,6 @@ input:hover{
 	display: none;
 	font-size: 24px;
 	font-weight: bold;
-	border:3px dotted #000;
 	overflow: hidden;
 	margin-bottom: 40px;
 	padding: 20px 0;
@@ -233,7 +234,7 @@ input:hover{
 	overflow: hidden;
 	display: none;
 	margin-top: 40px;
-	border:3px dotted #000;
+
     box-sizing: border-box;
     position: relative;
     bottom: 0;
@@ -265,7 +266,7 @@ input:hover{
 	overflow: hidden;
 	display: none;
 	margin-top: 40px;
-	border:3px dotted #000;
+
     box-sizing: border-box;
 }
 
