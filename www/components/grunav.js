@@ -1,300 +1,216 @@
 jQuery(function(){
-
-
+    
     if(navigator.geolocation){
-		navigator.geolocation.getCurrentPosition(
-		function(position){
-
-	var data = position.coords;
-	var lat = data.latitude;
-	var lng = data.longitude;
+        navigator.geolocation.getCurrentPosition(
+        function(position){
+            
+    var data = position.coords;
+    var lat = data.latitude;
+    var lng = data.longitude;
     
+//////////ぐるなびAPIを使う///////////////////////////////////////////////////////////////////
     //変数の定義
-	//API
-	var api_key = "f87f8cdf9c60128cb9a24eaa6719aea0";
-
-	//APIのURL
-	var url_rest = "http://api.gnavi.co.jp/RestSearchAPI/20150630/?callback=?";  //レストラン
-	var url_eva = "http://api.gnavi.co.jp/PhotoSearchAPI/20150630/?callback=?";  //評価
-
-	//設定
-	var params = {
-		keyid: api_key,
-		format:"json",
-		latitude:lat,
-		longitude:lng,
-		range:2,    
-		freeword: "",
-	};
+    //API
+    var api_key = "f87f8cdf9c60128cb9a24eaa6719aea0";
+    //APIのURL
+    var url_rest = "http://api.gnavi.co.jp/RestSearchAPI/20150630/?callback=?";  //レストラン
+    var url_eva = "http://api.gnavi.co.jp/PhotoSearchAPI/20150630/?callback=?";  //評価
+    //設定
+    var params = {
+        keyid: api_key,
+        format:"json",
+        latitude:lat,
+        longitude:lng,
+        range:5,    
+        freeword: "",
+    };
     
-    
-    
-    
-//////最初の導入ページ
-	$("#next").on("click",function(){
-		$(".first").hide();
-		$(".fimg").hide();
-		$(".second").show();
-		$(".simg").show();
-	});
-    
+/////////////////////////////////////////////////////////////最初の導入ページ
+    $("#next").on("click",function(){
+        $(".first").hide();
+        $(".fimg").hide();
+        $(".second").show();
+        $(".simg").show();
+    });
     $("#next2").on("click",function(){
-		$(".second").hide();
-		$(".simg").hide();
-		$(".third").show();
-		$(".aimg").show();
-	});
-
-	$("#main").on("click",function(){
-		$(".third").hide();
-		$(".aimg").hide();
-		$(".one").show();
-	});
-    
-    
-////////////////クリックすると///////////////////////////////////////////
-
-
-    $(".wa").on("click",function(){
-		params.freeword = "和";
-		$.getJSON(url_rest,params,function(result){
-			showResult(result);
-		});
-		$(".one").hide();
-		$(".image,.word,.distance").show();
-        // startWatch();
-	});
-
-	$(".you").on("click",function(){
-		params.freeword = "洋";
-		$.getJSON(url_rest,params,function(result){
-			showResult(result);
-		});
-		$(".one").hide();
-		$(".image,.word,.distance").show();
-        // startWatch();
-	});
-
-	$(".tyuu").on("click",function(){
-		params.freeword = "中華";
-		$.getJSON(url_rest,params,function(result){
-			showResult(result);
-		});
-		$(".one").hide();
-		$(".image,.word,.distance").show();
-        // startWatch();
-	});
-
-	$(".ta").on("click",function(){
-		params.freeword = "ラーメン";
-		$.getJSON(url_rest,params,function(result){
-			showResult(result);
-		});
-		$(".one").hide();
-		$(".image,.word,.distance").show();
-        // startWatch();
-	});
-    
-    
-    
-    $("#last").on("click",function(){
-    	$(".image,.word,.distance").hide();
-    	$(".image2,.word2,.distance2").show();
+        $(".second").hide();
+        $(".simg").hide();
+        $(".third").show();
+        $(".aimg").show();
+    });
+    $("#main").on("click",function(){
+        $(".third").hide();
+        $(".aimg").hide();
+        $(".one").show();
     });
     
+////////////////クリックすると///////////////////////////////////////////
+    $(".wa").on("click",function(){
+        params.freeword = "和";
+        $.getJSON(url_rest,params,function(result){
+            showResult(result);
+        });
+        $(".one").hide();
+        $(".image,.word,.distance").show();
+    });
     
+    $(".you").on("click",function(){
+        params.freeword = "洋";
+        $.getJSON(url_rest,params,function(result){
+            showResult(result);
+        });
+        $(".one").hide();
+        $(".image,.word,.distance").show();
+    });
+
+    $(".tyuu").on("click",function(){
+        params.freeword = "中";
+        $.getJSON(url_rest,params,function(result){
+            showResult(result);
+        });
+        $(".one").hide();
+        $(".image,.word,.distance").show();
+    });
+
+    $(".ta").on("click",function(){
+        params.freeword = "デザート,お菓子,チェーン";
+        $.getJSON(url_rest,params,function(result){
+            showResult(result);
+        });
+        $(".one").hide();
+        $(".image,.word,.distance").show();
+    });
     
-    
+    $("#last").on("click",function(){
+        $(".image,.word,.distance").hide();
+        $(".image2,.word2,.distance2").show();
+    });
 
+///////////////////////////情報の設定/////////////////////////////  
+   
+    var showResult = function(result){
+        if(result.total_hit_count > 0){
+            alert("運命の出会い！？");
+            $.each(result.rest,function(i,item){
 
-//////////ぐるなびAPIを使う///////////////////////////////////////////////////////////////////
+//////////////////////////////googlemapの変数設定
+                var rendererOptions = {
+                    draggable: true,
+                    preserveViewport:false
+                };
+                var directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
+                var directionsService = new google.maps.DirectionsService();
 
-
-
-///////////////////////////情報の設定/////////////    
-    
-
-
-
-	var showResult = function(result){
-		if(result.total_hit_count > 0){
-			alert("運命の出会い！？");
-			$.each(result.rest,function(i,item){
-				// $(".result").append("<div class='" + "food" + "'>" +
-				// 	// "<img src='" + item.image_url.shop_image1 + "'>" +  
-				// 	"<h1>" + item.name + "</h1>"+
-				// 	// "<p>" + item.latitude + " " + item.longitude + "</p>" +
-				// 	"<p>" + item.access.walk + "分" + "</p>" +
-				// 	"<div id='" + "popo" + "'></div>" +
-				// 	"<div id='" + "pipi" + "'></div>" +
-				// 	"<div id='" + "map-canvas" + "'></div>" +
-				// 	"<div id='" + "comment" + "'></div>" +
-				// 	"<div id='" + "hougaku" + "'></div>" +
-    //                 "<div id='" + "toutyaku" + "'>" + "到着したよ" + "</div>" +
-				// 	"</div>"
-				// );
-				
-
-				var rendererOptions = {
-					draggable: true,
-					preserveViewport:false
-				};
-				var directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
-				var directionsService = new google.maps.DirectionsService();
-// 
-// 
-// 
-				//マップの表示
-				var canvas = document.getElementById("map-canvas");
-				//進む道の表示
-				var road = document.getElementById("popo");
-
-				//ぐるなびの店舗の位置を中心にする
-				var latlng = new google.maps.LatLng(item.latitude,item.longitude);
-				//現在地の位置を取る
-				var me = new google.maps.LatLng(lat,lng);
-
-				//二転換の方角をとる
-// 
-// 
-				//canvasにmapOptionsの内容の地図のインスタンスの作成のための変数
-				var map;
-//                 
-//              //店の方角
+                //ぐるなびの店舗の位置を中心にする
+                //店の方角
                 var slat = item.latitude;
-            	var slng = item.longitude;
+                var slng = item.longitude;
+                var latlng = new google.maps.LatLng(slat,slng);
+                //現在地の位置を取る
+                var me = new google.maps.LatLng(lat,lng);
+
+                //canvasにmapOptionsの内容の地図のインスタンスの作成のための変数
+                var map;
+                
+                //方角の計算式
                 var Y = Math.cos(slng * Math.PI / 180) * Math.sin(slat * Math.PI / 180 - lat * Math.PI / 180);
-        		var X = Math.cos(lng * Math.PI / 180) * Math.sin(slng * Math.PI / 180) - Math.sin(lng * Math.PI / 180) * Math.cos(slng * Math.PI / 180) * Math.cos(slat * Math.PI / 180 - lat * Math.PI / 180);
-    		    var dirE0 = 180 * Math.atan2(Y, X) / Math.PI; // 東向きが０度の方向
-    		    if (dirE0 < 0) {
-    			    dirE0 = dirE0 + 360; //0～360 にする。
-    			}
-    			var dirN0 = (dirE0 + 90) % 360;
+                var X = Math.cos(lng * Math.PI / 180) * Math.sin(slng * Math.PI / 180) - Math.sin(lng * Math.PI / 180) * Math.cos(slng * Math.PI / 180) * Math.cos(slat * Math.PI / 180 - lat * Math.PI / 180);
+                var dirE0 = 180 * Math.atan2(Y, X) / Math.PI; // 東向きが０度の方向
+                if (dirE0 < 0) {
+                    dirE0 = dirE0 + 360; //0～360 にする。
+                }
+                var dirN0 = (dirE0 + 90) % 360;
                 var dirN0 = Math.floor(dirN0);
 
-
+////////////////////////位置情報を常に取るための設定
                 var seikou_option = {
-                	enableHighAccuracy:1,    // 高精度を要求する            // 最大待ち時間（ミリ秒）
-            		// maximumAge: 0   
-                    maximumAge: 30000// キャッシュ有効期間（ミリ秒）
-            	};
-				function calcRoute(){
-    				navigator.geolocation.watchPosition(seikou,null,seikou_option);
-					function seikou(position){
+                    enableHighAccuracy:true,    // 高精度を要求する
+                    timeout: 30000,              // 最大待ち時間（ミリ秒）
+                    maximumAge: 0           // キャッシュ有効期間（ミリ秒）
+                };
+//////////////////////////
+                function calcRoute(){
+                navigator.geolocation.watchPosition(seikou,errorFunc,seikou_option);
+                    
+                function seikou(position){
+                    var data2 = position.coords;
+                    var lat2 = data2.latitude;
+                    var lng2 = data2.longitude;
+                    var me2 = new google.maps.LatLng(lat2,lng2);
 
-					var data = position.coords;
-					var lat = data.latitude;
-					var lng = data.longitude;
-					var me = new google.maps.LatLng(lat,lng);
+                    var request = {
+                        origin: me2,  //現在地
+                        destination: latlng,  //目的地
+                        //ドライビングモード指定（歩き）
+                        travelMode: google.maps.DirectionsTravelMode.WALKING,
+                        //単位m表示
+                        unitSystem: google.maps.DirectionsUnitSystem.METRIC,
+                        optimizeWaypoints: true,//最適化された最短距離にする。
+                    };
                     
-                    //最初に中身をリセット
-                    // document.getElementById('kyori').innerHTML = "";
-                    $(".word").empty();
-  
-                    
-                    
-                    
-                    
-
-					var request = {
-						origin: me,  //現在地
-						destination: latlng,  //目的地
-						//ドライビングモード指定（歩き）
-						travelMode: google.maps.DirectionsTravelMode.WALKING,
-						//単位km表示
-						unitSystem: google.maps.DirectionsUnitSystem.METRIC,
-						optimizeWaypoints: true,//最適化された最短距離にする。
-
-					};
-
-    					directionsService.route(request,function(response,status){
-    						if(status == google.maps.DirectionsStatus.OK){
-                                // alert(response.routes[0].legs[0].distance.value)
-    							document.querySelector('#kyori').textContent = response.routes[0].legs[0].distance.value; //+ "m"/;
-    						}
+                    directionsService.route(request,function(response,status){
+                        var max = response.routes[0].legs[0].distance.value;
+                        if(status == google.maps.DirectionsStatus.OK){
+                            $(".word").empty();
+                            document.querySelector('#kyori').textContent = max; //+ "m"/;
+                        }
     
-    				//距離のコメントの挿入
-    						if(response.routes[0].legs[0].distance.value > 500){
-    							$(".word").append("<p>" + "遠いよ〜〜" + "</p>");
-    						}else if(500>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>100){
-    							$(".word").append("<p>" + "もう少し〜" + "</p>");
-    						}else{
-    							$(".word").append("<p>" + "近い" + "</p>");
-    						}
+                    //距離のコメントの挿入
+                            if(max > 500){
+                                $(".word").append("<p>" + "遠いよ〜〜" + "</p>");
+                            }else if(500>max && max>100){
+                                $(".word").append("<p>" + "もう少し〜" + "</p>");
+                            }else{
+                                $(".word").append("<p>" + "近い" + "</p>");
+                            }
     
-    						if(response.routes[0].legs[0].distance.value > 300){
-    							$(".word").append("<p>" + "いざ、いくよ〜〜〜" + "</p>");
-    						}else if(300>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>270){
+                            if(max > 300){
+                                $(".word").append("<p>" + "いざ、いくよ〜〜〜" + "</p>");
+                            }else if(300>max && max>270){
                                 $(".word").append("<p>" + "しゅっぱつだよ〜" + "</p>");
-    						}else if(270>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>250){
+                                $("#compass").attr("src","y-3.png");
+                            }else if(270>max && max>250){
                                 $(".word").append("<p>" + "わくわくだね〜" + "</p>");
-    						}else if(250>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>220){
+                            }else if(250>max && max>220){
                                 $(".word").append("<p>" + "おなかすいた〜？" + "</p>");
-    						}else if(220>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>200){
+                            }else if(220>max && max>200){
                                 $(".word").append("<p>" + "くんくんくん" + "</p>");
-    						}else if(200>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>175){
+                                $("#compass").attr("src","y-2.png");
+                            }else if(200>max && max>175){
                                 $(".word").append("<p>" + "どんなお店かな" + "</p>");
-    						}else if(175>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>150){
+                            }else if(175>max && max>150){
                                 $(".word").append("<p>" + "おいしいにおいがするぞ" + "</p>");
-    						}else if(150>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>125){
+                                $("#compass").attr("src","y-5.png");
+                            }else if(150>max && max>125){
                                 $(".word").append("<p>" + "まちきれん〜" + "</p>");
-    						}else if(125>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>100){
-    							$(".word").append("<p>" + "よだれがとまらないよ" + "</p>");
-    						}else if(100>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>75){
-    							$(".word").append("<p>" + "ちかい、、ちかいぞ！！" + "</p>");
-    						}else if(75>response.routes[0].legs[0].distance.value && response.routes[0].legs[0].distance.value>50){
-    							$(".word").append("<p>" + "hujrfaksdf!!!!" + "</p>");
-    						}else if(50>response.routes[0].legs[0].distance.value){
-        						$(".word").append("<p>" + "ついた！！！" + "</p>");
-                                $(".word").append("<p>" + item.name + "</p>");
-                                $(".image,.distance").empty();
+                            }else if(125>max && max>100){
+                                $(".word").append("<p>" + "よだれがとまらないよ" + "</p>");
+                                $("#compass").attr("src","y-1.png");
+                            }else if(100>max && max>75){
+                                $(".word").append("<p>" + "ちかい、、ちかいぞ！！" + "</p>");
+                                $("#compass").attr("src","y-4.png");
+                            }else if(75>max && max>50){
+                                $(".word").append("<p>" + "hujrfaksdf!!!!" + "</p>");
+                            }else if(50>max && max>1){
+                                $(".word").append("<p>" + "ついた！！！" + "</p>"+ "<p>" + item.name + "</p>");
+                                $(".image").empty();
+                                $(".distance").empty();
                                 $(".distance").append("<a href='last.html'>" + "お別れクリック" + "</a>")
                                 $(".image").append("<img src='" + item.image_url.shop_image1 + "'>");
-    						}
-   
-    
-    					});
-
-				    };
-				}
-
-
-		
-				//方角を計算 + 距離の計算
-                function seikousitai(){
-            		// document.getElementById('kyori').innerHTML = "";
-                    navigator.geolocation.getCurrentPosition(
-    		        function(position){
-                        //現在地の緯度経度
-                            var data = position.coords;
-                        	var lat = data.latitude;
-                        	var lng = data.longitude;
-                        //お店の緯度経度
-            				var slat = item.latitude;
-        					var slng = item.longitude;
-                        
-
-    				  // 緯度経度 lat, lng の点を出発として、緯度経度 lat2, lng2 への方位
-    				  // 北を０度で右回りの角度０～３６０度
-    				  var Y = Math.cos(slng * Math.PI / 180) * Math.sin(slat * Math.PI / 180 - lat * Math.PI / 180);
-    				  var X = Math.cos(lng * Math.PI / 180) * Math.sin(slng * Math.PI / 180) - Math.sin(lng * Math.PI / 180) * Math.cos(slng * Math.PI / 180) * Math.cos(slat * Math.PI / 180 - lat * Math.PI / 180);
-    				  var dirE0 = 180 * Math.atan2(Y, X) / Math.PI; // 東向きが０度の方向
-    				  if (dirE0 < 0) {
-    				    dirE0 = dirE0 + 360; //0～360 にする。
-    				  }
-    				  var dirN0 = (dirE0 + 90) % 360; //(dirE0+90)÷360の余りを出力 北向きが０度の方向
-                      return dirN0;
-                      // var element = document.getElementById("heading");
-                      // element.innerHTML = "Orientation:" + shousuu;
-                          //店のある方を向く
-            		     //    $("#right").css({
-        			        //    transform : "rotate(" + dirN0 + "deg)" 
-        			        // });
-        			        // $("#left").css({
-        			        //    transform : "rotate(" + dirN0 + "deg)" 
-        			        // });
-                            // alert(dirN0);
-    		        });
+                            }
+                    });
+                    }
+                    function errorFunc(error){
+                        // エラーコードのメッセージを定義
+                    	var errorMessage = {
+                    		0: "原因不明のエラーが発生しました…。" ,
+                    		1: "位置情報の取得が許可されませんでした…。" ,
+                    		2: "電波状況などで位置情報が取得できませんでした…。" ,
+                    		3: "位置情報の取得に時間がかかり過ぎてタイムアウトしました…。" ,
+                    	};
+                    	// エラーコードに合わせたエラー内容を表示
+                    	alert( errorMessage[error.code] ) ;
+                    }
                 }
                 
                 function startWatch(heading){
@@ -307,51 +223,37 @@ jQuery(function(){
                 function onSuccess(heading){
                     var element = document.getElementById("ori");
                     var shousuu = Math.floor(heading.magneticHeading);
-                    // alert(seikousitai());
                     element.innerHTML = "Orientation:" + (shousuu + dirN0);
-                    
                     $("#right").css({
                        transform : "rotate(" + (shousuu + dirN0) + "deg)" 
                     });
                     $("#left").css({
                        transform : "rotate(" + (shousuu + dirN0) + "deg)" 
-                    });
-                    
-                        
+                    });   
                 }
                 
                 //onError エラーの時の動作
                 function onError(compassError){
                     alert(compassError.code);
                 }
-                
-                
+
+///////////////スイッチ的な
                 calcRoute();
                 startWatch();
-                seikousitai();
  
-				//$.eachの回数を一回に制限
-				if(i == 1){
-					return true;
-				}else{
-					return false;
-				}
-
-
-			});
-
-		}else{
-			alert("検索結果が見つかりませんでした。");
-		}
-	};  //showresultの終了
-
+                //$.eachの回数を一回に制限
+                if(i == 1){
+                    return true;
+                }else{
+                    return false;
+                }
+            });
+        }else{
+            alert("検索結果が見つかりませんでした。");
+        }
+    };  //showresultの終了
 });
-
-
 }else{
-	alert("ごしよういただけません");
-
+    alert("ごしよういただけません");
 }
-
-
 });
