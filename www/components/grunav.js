@@ -21,7 +21,7 @@ jQuery(function(){
         format:"json",
         latitude:lat,
         longitude:lng,
-        range:5,    
+        range:1,    
         freeword: "",
     };
     
@@ -189,9 +189,9 @@ jQuery(function(){
                             }else if(100>max && max>75){
                                 $(".word").append("<p>" + "ちかい、、ちかいぞ！！" + "</p>");
                                 $("#compass").attr("src","y-4.png");
-                            }else if(75>max && max>50){
+                            }else if(75>max && max>20){
                                 $(".word").append("<p>" + "hujrfaksdf!!!!" + "</p>");
-                            }else if(50>max && max>1){
+                            }else if(20>max && max>1){
                                 $(".word").append("<p>" + "ついた！！！" + "</p>"+ "<p>" + item.name + "</p>");
                                 $(".image").empty();
                                 $(".distance").empty();
