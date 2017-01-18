@@ -23,6 +23,7 @@ jQuery(function(){
         longitude:lng,
         range:2,    
         freeword: "",
+        freeword_condition: 2
     };
     
     var params2 = {
@@ -32,6 +33,7 @@ jQuery(function(){
         longitude:lng,
         range:5,    
         freeword: "",
+        freeword_condition: 2
     };
     
 /////////////////////////////////////////////////////////////最初の導入ページ
@@ -55,7 +57,7 @@ jQuery(function(){
     
 ////////////////クリックすると///////////////////////////////////////////
     $(".wa").on("click",function(){
-        params.freeword = "和";
+        params.freeword = "和,和食,魚,日本酒,生姜焼き,すき焼き,豆腐";
         $.getJSON(url_rest,params2,function(result){
             showResult(result);
         });
@@ -64,7 +66,7 @@ jQuery(function(){
     });
     
     $(".you").on("click",function(){
-        params.freeword = "洋";
+        params.freeword = "洋,洋食,ハンバーグ,ステーキ,グラタン,エビフライ,カレー";
         $.getJSON(url_rest,params,function(result){
             showResult(result);
         });
@@ -73,7 +75,7 @@ jQuery(function(){
     });
 
     $(".tyuu").on("click",function(){
-        params.freeword = "中華";
+        params.freeword = "中華,ラーメン,餃子,麻婆豆腐,酢豚,シュウマイ,チャーハン";
         $.getJSON(url_rest,params,function(result){
             showResult(result);
         });
@@ -82,7 +84,7 @@ jQuery(function(){
     });
 
     $(".ta").on("click",function(){
-        params.freeword = "デザート,お菓子,チェーン";
+        params.freeword = "デザート,お菓子,チェーン,イタリアン,パスタ";
         $.getJSON(url_rest,params,function(result){
             showResult(result);
         });
