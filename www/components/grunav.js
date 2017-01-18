@@ -145,7 +145,10 @@ jQuery(function(){
                     timeout: 30000,              // 最大待ち時間（ミリ秒）
                     maximumAge: 0           // キャッシュ有効期間（ミリ秒）
                 };
-//////////////////////////
+////////////////////店舗の画像を判定するために文字列にする//////////
+                var shop_img = item.image_url.shop_image1;
+                var img_url = shop_img.toString();
+//////////////////////////////////////////////////////////////////////////
                 function calcRoute(){
                 navigator.geolocation.watchPosition(seikou,errorFunc,seikou_option);
                     
@@ -174,22 +177,22 @@ jQuery(function(){
     
                     //距離のコメントの挿入
                             if(max > 500){
-                                $(".word").append("<p>" + "遠いよ〜〜" + "</p>");
+                                $(".word").append("<p>" + "多分遠い！" + "</p>");
                             }else if(500>max && max>200){
-                                $(".word").append("<p>" + "もう少し〜" + "</p>");
+                                $(".word").append("<p>" + "近い気がする" + "</p>");
                             }else if(200>max && max>10){
-                                $(".word").append("<p>" + "近い" + "</p>");
+                                $(".word").append("<p>" + "近いかも" + "</p>");
                             }
 
                             if(max > 400){
-                                $(".word").append("<p>" + "いざ、いくよ〜〜〜" + "</p>");
+                                 $(".word").append("<p>" + "そろそろ行く？" + "</p>");
                             }else if(400>max && max>270){
-                                $(".word").append("<p>" + "しゅっぱつだよ〜" + "</p>");
+                                $(".word").append("<p>" + "歩け〜" + "</p>");
                                 $("#compass").attr("src","y-3.png");
                             }else if(270>max && max>250){
-                                $(".word").append("<p>" + "わくわくだね〜" + "</p>");
+                                $(".word").append("<p>" + "歩くの遅いよ" + "</p>");
                             }else if(250>max && max>220){
-                                $(".word").append("<p>" + "おなかすいた〜？" + "</p>");
+                                $(".word").append("<p>" + "ギュギュギュギュる" + "</p>");
                             }else if(220>max && max>200){
                                 $(".word").append("<p>" + "くんくんくん" + "</p>");
                                 $("#compass").attr("src","y-2.png");
@@ -207,16 +210,23 @@ jQuery(function(){
                                 $(".word").append("<p>" + "ちかい、、ちかいぞ！！" + "</p>");
                                 $("#compass").attr("src","y-4.png");
                             }else if(75>max && max>10){
-                                $(".word").append("<p>" + "hujrfaksdf!!!!" + "</p>");
+                                $(".word").append("<p>" + "もう着くかも。多分。" + "</p>");
                             }else if(10>max && max>1){
                                 $(".word").append("<p>" + "ついた！！！" + "</p>"+ "<p>" + item.name + "</p>");
                                 $(".image").empty();
                                 $(".distance").empty();
                                 $(".distance").append("<a href='last.html'>" + "お別れクリック" + "</a>")
-                                $(".image").append("<img src='" + item.image_url.shop_image1 + "'>");
+                        		if(img_url === '[object Object]'){
+                    				preLoad();
+                    				$(".image").append("<img src='" + item.image_url.shop_image1 + "'>");
+                    			} else {
+                    				preLoad();
+                    				$(".image").append("<img src='" + "error.png" + "'>");
+                    			}
                             }
                     });
                     }
+
                     function errorFunc(error){
                         // エラーコードのメッセージを定義
                     	var errorMessage = {
