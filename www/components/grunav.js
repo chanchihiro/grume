@@ -173,15 +173,15 @@ jQuery(function(){
                     //距離のコメントの挿入
                             if(max > 500){
                                 $(".word").append("<p>" + "遠いよ〜〜" + "</p>");
-                            }else if(500>max && max>100){
+                            }else if(500>max && max>200){
                                 $(".word").append("<p>" + "もう少し〜" + "</p>");
-                            }else{
+                            }else if(200>max && max>10){
                                 $(".word").append("<p>" + "近い" + "</p>");
                             }
-    
-                            if(max > 300){
+
+                            if(max > 400){
                                 $(".word").append("<p>" + "いざ、いくよ〜〜〜" + "</p>");
-                            }else if(300>max && max>270){
+                            }else if(400>max && max>270){
                                 $(".word").append("<p>" + "しゅっぱつだよ〜" + "</p>");
                                 $("#compass").attr("src","y-3.png");
                             }else if(270>max && max>250){
@@ -224,7 +224,12 @@ jQuery(function(){
                     		3: "位置情報の取得に時間がかかり過ぎてタイムアウトしました…。" ,
                     	};
                     	// エラーコードに合わせたエラー内容を表示
-                    	alert( errorMessage[error.code] ) ;
+                        swal({   
+                            title: errorMessage[error.code],   
+                            text: "",  
+                            type: "error",   
+                            confirmButtonText: "もう一度運命の店を探す"
+                        });
                     }
                 }
                 
