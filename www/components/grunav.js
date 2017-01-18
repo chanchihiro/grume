@@ -25,6 +25,15 @@ jQuery(function(){
         freeword: "",
     };
     
+    var params2 = {
+        keyid: api_key,
+        format:"json",
+        latitude:lat,
+        longitude:lng,
+        range:5,    
+        freeword: "",
+    };
+    
 /////////////////////////////////////////////////////////////最初の導入ページ
     $("#next").on("click",function(){
         $(".first").hide();
@@ -47,7 +56,7 @@ jQuery(function(){
 ////////////////クリックすると///////////////////////////////////////////
     $(".wa").on("click",function(){
         params.freeword = "和";
-        $.getJSON(url_rest,params,function(result){
+        $.getJSON(url_rest,params2,function(result){
             showResult(result);
         });
         $(".one").hide();
@@ -64,7 +73,7 @@ jQuery(function(){
     });
 
     $(".tyuu").on("click",function(){
-        params.freeword = "中";
+        params.freeword = "中華";
         $.getJSON(url_rest,params,function(result){
             showResult(result);
         });
@@ -85,12 +94,18 @@ jQuery(function(){
         $(".image,.word,.distance").hide();
         $(".image2,.word2,.distance2").show();
     });
-
+    
+    
 ///////////////////////////情報の設定/////////////////////////////  
    
     var showResult = function(result){
         if(result.total_hit_count > 0){
-            alert("運命の出会い！？");
+            swal({   
+                title: "運命の出会い！",   
+                text: "やっと出会えた！どんな店だと思う？",  
+                type: "success",   
+                confirmButtonText: "歩き出す"
+            });
             $.each(result.rest,function(i,item){
 
 //////////////////////////////googlemapの変数設定
@@ -249,7 +264,12 @@ jQuery(function(){
                 }
             });
         }else{
-            alert("検索結果が見つかりませんでした。");
+            swal({   
+                title: "運命に出会えなかった！",   
+                text: "近くにお店がないよ！もう一度最初からやり直して！",  
+                type: "error",   
+                confirmButtonText: "もう一度運命の店を探す"
+            });
         }
     };  //showresultの終了
 });
