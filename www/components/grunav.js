@@ -1,5 +1,4 @@
 jQuery(function(){
-    
     if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(
         function(position){
@@ -21,21 +20,10 @@ jQuery(function(){
         format:"json",
         latitude:lat,
         longitude:lng,
-        range:2,    
+        range:2,
         freeword: "",
         freeword_condition: 2
-    };
-    
-    var params2 = {
-        keyid: api_key,
-        format:"json",
-        latitude:lat,
-        longitude:lng,
-        range:5,    
-        freeword: "",
-        freeword_condition: 2
-    };
-    
+    };    
 /////////////////////////////////////////////////////////////最初の導入ページ
     $("#next").on("click",function(){
         $(".first").hide();
@@ -54,17 +42,15 @@ jQuery(function(){
         $(".aimg").hide();
         $(".one").show();
     });
-    
 ////////////////クリックすると///////////////////////////////////////////
     $(".wa").on("click",function(){
         params.freeword = "和,和食,魚,日本酒,生姜焼き,すき焼き,豆腐";
-        $.getJSON(url_rest,params2,function(result){
+        $.getJSON(url_rest,params,function(result){
             showResult(result);
         });
         $(".one").hide();
         $(".image,.word,.distance").show();
     });
-    
     $(".you").on("click",function(){
         params.freeword = "洋,洋食,ハンバーグ,ステーキ,グラタン,エビフライ,カレー";
         $.getJSON(url_rest,params,function(result){
@@ -73,7 +59,6 @@ jQuery(function(){
         $(".one").hide();
         $(".image,.word,.distance").show();
     });
-
     $(".tyuu").on("click",function(){
         params.freeword = "中華,ラーメン,餃子,麻婆豆腐,酢豚,シュウマイ,チャーハン";
         $.getJSON(url_rest,params,function(result){
@@ -82,7 +67,6 @@ jQuery(function(){
         $(".one").hide();
         $(".image,.word,.distance").show();
     });
-
     $(".ta").on("click",function(){
         params.freeword = "デザート,お菓子,チェーン,イタリアン,パスタ";
         $.getJSON(url_rest,params,function(result){
@@ -91,25 +75,20 @@ jQuery(function(){
         $(".one").hide();
         $(".image,.word,.distance").show();
     });
-    
     $("#last").on("click",function(){
         $(".image,.word,.distance").hide();
         $(".image2,.word2,.distance2").show();
     });
-    
-    
 ///////////////////////////情報の設定/////////////////////////////  
-   
     var showResult = function(result){
         if(result.total_hit_count > 0){
             swal({   
-                title: "運命の出会い！",   
-                text: "やっと出会えた！どんな店だと思う？",  
-                type: "success",   
+                title: "運命の出会い！",  
+                text: "やっと出会えた！どんな店だろう",  
+                type: "success",
                 confirmButtonText: "歩き出す"
             });
             $.each(result.rest,function(i,item){
-
 //////////////////////////////googlemapの変数設定
                 var rendererOptions = {
                     draggable: true,
@@ -117,7 +96,6 @@ jQuery(function(){
                 };
                 var directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
                 var directionsService = new google.maps.DirectionsService();
-
                 //ぐるなびの店舗の位置を中心にする
                 //店の方角
                 var slat = item.latitude;
@@ -179,7 +157,7 @@ jQuery(function(){
                             if(max > 500){
                                 $(".word").append("<p>" + "多分遠い！" + "</p>");
                             }else if(500>max && max>200){
-                                $(".word").append("<p>" + "近い気がする" + "</p>");
+                                $(".word").append("<p>" + "もうちょい！" + "</p>");
                             }else if(200>max && max>10){
                                 $(".word").append("<p>" + "近いかも" + "</p>");
                             }
@@ -239,7 +217,7 @@ jQuery(function(){
                         swal({   
                             title: errorMessage[error.code],   
                             text: "",  
-                            type: "error",   
+                            type: "error",
                             confirmButtonText: "もう一度運命の店を探す"
                         });
                     }
@@ -263,12 +241,10 @@ jQuery(function(){
                        transform : "rotate(" + sumsum + "deg)" 
                     });   
                 }
-                
                 //onError エラーの時の動作
                 function onError(compassError){
                     alert(compassError.code);
                 }
-
 ///////////////スイッチ的な
                 calcRoute();
                 startWatch();
