@@ -5,7 +5,7 @@
 
 @font-face{
     font-family: ema;
-	src:url("YuNaFont.ttf")format("opentype");
+	src :url(YuNaFont.ttf)format("opentype");
 }
 
 
@@ -239,7 +239,12 @@ input:hover{
 	font-weight: bold;
 	margin-bottom: 0px;
 	padding: 10px 0;
+    padding-top: 40px;
     margin-top: 20px;
+}
+
+.word p{
+    font-family: ema;
 }
 
 .distance{
@@ -248,12 +253,11 @@ input:hover{
 	text-align: center;
 	overflow: hidden;
 	display: none;
-	margin-top: 40px;
-
-    box-sizing: border-box;
+	padding-top: 40px;
     position: relative;
     bottom: 0;
     z-index: 30;
+    font-family: ema;
 }
 
 .word2{

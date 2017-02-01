@@ -163,7 +163,7 @@ jQuery(function(){
                             }
 
                             if(max > 400){
-                                 $(".word").append("<p>" + "そろそろ行く？" + "</p>");
+                                $(".word").append("<p>" + "そろそろ行く？" + "</p>");
                             }else if(400>max && max>270){
                                 $(".word").append("<p>" + "歩け〜" + "</p>");
                                 $("#compass").attr("src","y-3.png");

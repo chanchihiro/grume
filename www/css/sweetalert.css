@@ -34,13 +34,14 @@ body.stop-scrolling {
   @media all and (max-width: 540px) {
     .sweet-alert {
       width: auto;
+      border: 5px solid #000;
       margin-left: 0;
       margin-right: 0;
       left: 15px;
       right: 15px; } }
   .sweet-alert h2 {
-    color: #575757;
-    font-size: 30px;
+    color: #000;
+    font-size: 20px;
     text-align: center;
     font-weight: 600;
     text-transform: none;
@@ -82,7 +83,7 @@ body.stop-scrolling {
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      background-color: #ea7d7d;
+      background-color: #000;
       color: white;
       line-height: 24px;
       text-align: center;
@@ -106,7 +107,7 @@ body.stop-scrolling {
       content: "";
       width: 20px;
       height: 6px;
-      background-color: #f06e57;
+      background-color: #000;
       border-radius: 3px;
       position: absolute;
       top: 50%;
@@ -172,9 +173,11 @@ body.stop-scrolling {
     opacity: 0;
     visibility: hidden; }
   .sweet-alert button {
-    background-color: #8CD4F5;
-    color: white;
+    background-color: #fff;
+    color: #000;
+    font-weight: 600;
     border: none;
+    border: 3px solid #000;
     box-shadow: none;
     font-size: 17px;
     font-weight: 500;
@@ -185,11 +188,11 @@ body.stop-scrolling {
     cursor: pointer; }
     .sweet-alert button:focus {
       outline: none;
-      box-shadow: 0 0 2px rgba(128, 179, 235, 0.5), inset 0 0 0 1px rgba(0, 0, 0, 0.05); }
+      box-shadow: 0 0 2px rgba(255, 255, 255, 0.5), inset 0 0 0 1px rgba(0, 0, 0, 0.05); }
     .sweet-alert button:hover {
-      background-color: #7ecff4; }
+      background-color: #fff; }
     .sweet-alert button:active {
-      background-color: #5dc2f1; }
+      background-color: #fff; }
     .sweet-alert button.cancel {
       background-color: #C1C1C1; }
       .sweet-alert button.cancel:hover {
@@ -197,7 +200,7 @@ body.stop-scrolling {
       .sweet-alert button.cancel:active {
         background-color: #a8a8a8; }
       .sweet-alert button.cancel:focus {
-        box-shadow: rgba(197, 205, 211, 0.8) 0px 0px 2px, rgba(0, 0, 0, 0.0470588) 0px 0px 0px 1px inset !important; }
+        box-shadow: rgba(255, 255, 255, 0.8) 0px 0px 2px, rgba(0, 0, 0, 0.0470588) 0px 0px 0px 1px inset !important; }
     .sweet-alert button[disabled] {
       opacity: .6;
       cursor: default; }
@@ -233,7 +236,7 @@ body.stop-scrolling {
         position: absolute;
         height: 5px;
         width: 47px;
-        background-color: #F27474;
+        background-color: #000;
         display: block;
         top: 37px;
         border-radius: 2px; }
@@ -256,7 +259,7 @@ body.stop-scrolling {
         -webkit-border-radius: 2px;
         border-radius: 2px;
         margin-left: -2px;
-        background-color: #F8BB86; }
+        background-color: #000; }
       .sweet-alert .sa-icon.sa-warning .sa-dot {
         position: absolute;
         width: 7px;
@@ -277,17 +280,19 @@ body.stop-scrolling {
         left: 50%;
         bottom: 17px;
         border-radius: 2px;
+        border: 3px solid #000;
         margin-left: -2px;
-        background-color: #C9DAE1; }
+        background-color: #fff; }
       .sweet-alert .sa-icon.sa-info::after {
         content: "";
         position: absolute;
         width: 7px;
         height: 7px;
         border-radius: 50%;
+        border: 3px solid #000;
         margin-left: -3px;
         top: 19px;
-        background-color: #C9DAE1;
+        background-color: #fff;
         left: 50%; }
     .sweet-alert .sa-icon.sa-success {
       border-color: #A5DC86; }
@@ -323,7 +328,7 @@ body.stop-scrolling {
       .sweet-alert .sa-icon.sa-success .sa-placeholder {
         width: 80px;
         height: 80px;
-        border: 4px solid rgba(165, 220, 134, 0.2);
+        border: 4px solid rgba(255, 225, 255, 0.2);
         -webkit-border-radius: 40px;
         border-radius: 40px;
         border-radius: 50%;
@@ -344,7 +349,7 @@ body.stop-scrolling {
         transform: rotate(-45deg); }
       .sweet-alert .sa-icon.sa-success .sa-line {
         height: 5px;
-        background-color: #A5DC86;
+        background-color: #000;
         display: block;
         border-radius: 2px;
         position: absolute;
@@ -703,15 +708,15 @@ body.stop-scrolling {
 
 @-webkit-keyframes pulseWarningIns {
   0% {
-    background-color: #F8D486; }
+    background-color: #000; }
   100% {
-    background-color: #F8BB86; } }
+    background-color: #000; } }
 
 @keyframes pulseWarningIns {
   0% {
-    background-color: #F8D486; }
+    background-color: #000; }
   100% {
-    background-color: #F8BB86; } }
+    background-color: #000; } }
 
 .pulseWarningIns {
   -webkit-animation: pulseWarningIns 0.75s infinite alternate;
@@ -772,7 +777,7 @@ body.stop-scrolling {
 .la-ball-fall > div {
   display: inline-block;
   float: none;
-  background-color: currentColor;
+  background-color: #000;
   border: 0 solid currentColor; }
 
 .la-ball-fall {
