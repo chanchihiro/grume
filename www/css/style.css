@@ -17,7 +17,6 @@
 
 body{
     font-family: tegaki;
-    padding: 20px;
 }
 
 /************************************最初のページ************/
@@ -140,35 +139,52 @@ input:hover{
     top: 68px;
 }
 
+#which {
+    width: 70%;
+    padding-top: 30%;
+}
+
 .wa{
 	position: absolute;
-	top: 0;
-	left: -30px;
-    font-family: ema;
-    margin: 45px  0 0 20px;
+    width: 50%;
+    bottom:28%;
+    left: 0;
     z-index: 10;
+}
+
+.wa img{
+    width: 100%;
 }
 
 .you{
 	position: absolute;
-	top: 0;
-	right: -30px;
-    margin: 45px  20px 0 0;
+	right: 0px;
+    bottom: 29%;
+    width: 50%;
     z-index: 10;
+}
+.you img{
+    width: 100%;
 }
 
 .tyuu{
 	position: absolute;
 	bottom: 10px;
-	left: -30px;
-    margin: 0 0 30px 20px;
+    width: 50%;
+	left: 0px;
+}
+.tyuu img{
+    width: 100%;
 }
 
 .ta{
 	position: absolute;
 	bottom: 10px;
-	right: -20px;
-    margin: 0 20px 30px 0;
+    width: 50%;
+	right: 0px;
+}
+.ta img{
+    width: 100%;
 }
 
 #pipi{
@@ -199,13 +215,13 @@ input:hover{
 
 #right{
     position:absolute;
-    right: 18%;
+    right: 21%;
     top: 65px;
 }
 
 #left{
     position: absolute;
-    left: 18%;
+    left: 21%;
     top: 65px;
 }
 
