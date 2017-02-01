@@ -224,7 +224,7 @@ jQuery(function(){
                     				$(".image").append("<img src='" + "error.png" + "'>");
                     			}
                             }
-                    });
+                        });
                     }
 
                     function errorFunc(error){
@@ -255,12 +255,12 @@ jQuery(function(){
                 function onSuccess(heading){
                     var element = document.getElementById("ori");
                     var shousuu = Math.floor(heading.magneticHeading);
-                    element.innerHTML = "Orientation:" + (shousuu + dirN0);
+                    var sumsum = shousuu + dirN0;
                     $("#right").css({
-                       transform : "rotate(" + (shousuu + dirN0) + "deg)" 
+                       transform : "rotate(" + sumsum + "deg)" 
                     });
                     $("#left").css({
-                       transform : "rotate(" + (shousuu + dirN0) + "deg)" 
+                       transform : "rotate(" + sumsum + "deg)" 
                     });   
                 }
                 
